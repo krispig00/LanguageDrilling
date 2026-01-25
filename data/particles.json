@@ -1,0 +1,24 @@
+{
+  "questions": [
+    { "question": "subject marker", "answer": "wa", "alternatives": ["ha"] },
+    { "question": "object marker", "answer": "wo", "alternatives": ["o"] },
+    { "question": "direction/goal marker (to)", "answer": "ni" },
+    { "question": "location marker (at/in)", "answer": "de" },
+    { "question": "possessive marker (of/'s)", "answer": "no" },
+    { "question": "question marker", "answer": "ka" },
+    { "question": "topic marker", "answer": "wa", "alternatives": ["ha"] },
+    { "question": "and (between nouns)", "answer": "to" },
+    { "question": "from", "answer": "kara" },
+    { "question": "until/to", "answer": "made" },
+    { "question": "also/too", "answer": "mo" },
+    { "question": "with (together)", "answer": "to" },
+    { "question": "by means of", "answer": "de" },
+    { "question": "emphasis/only", "answer": "dake" },
+    { "question": "but/however", "answer": "ga" },
+    { "question": "or (between nouns)", "answer": "ka" },
+    { "question": "even", "answer": "demo" },
+    { "question": "about/approximately", "answer": "gurai", "alternatives": ["kurai"] },
+    { "question": "each/every", "answer": "goto" },
+    { "question": "towards", "answer": "e", "alternatives": ["he"] }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "questions": [
+    { "question": "mother (my)", "answer": "haha" },
+    { "question": "mother (someone's)", "answer": "okaasan" },
+    { "question": "father (my)", "answer": "chichi" },
+    { "question": "father (someone's)", "answer": "otousan" },
+    { "question": "older sister (my)", "answer": "ane" },
+    { "question": "older sister (someone's)", "answer": "oneesan" },
+    { "question": "older brother (my)", "answer": "ani" },
+    { "question": "older brother (someone's)", "answer": "oniisan" },
+    { "question": "younger sister", "answer": "imouto" },
+    { "question": "younger brother", "answer": "otouto" },
+    { "question": "grandmother (my)", "answer": "sobo" },
+    { "question": "grandmother (someone's)", "answer": "obaasan" },
+    { "question": "grandfather (my)", "answer": "sofu" },
+    { "question": "grandfather (someone's)", "answer": "ojiisan" },
+    { "question": "wife (my)", "answer": "tsuma" },
+    { "question": "wife (someone's)", "answer": "okusan" },
+    { "question": "husband (my)", "answer": "otto" },
+    { "question": "husband (someone's)", "answer": "goshujin" },
+    { "question": "child", "answer": "kodomo" },
+    { "question": "daughter", "answer": "musume" },
+    { "question": "son", "answer": "musuko" },
+    { "question": "family", "answer": "kazoku" }
+  ]
+}
