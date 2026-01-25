@@ -1,0 +1,112 @@
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import type { TopicData, QuizQuestion, Direction } from '../types'
+
+const router = useRouter()
+const route = useRoute()
+
+const topicName = computed(() => route.query.topicName as string)
+const direction = computed(() => route.query.direction as Direction)
+const questionCount = computed(() => parseInt(route.query.count as string) || 10)
+const directionLabel = computed(() =>
+  direction.value === 'jp-to-en' ? 'JP \u2192 EN' : 'EN \u2192 JP'
+)
+
+const questions = ref<QuizQuestion[]>([])
+const loading = ref(true)
+const error = ref<string | null>(null)
+
+const allAnswered = computed(() =>
+  questions.value.every((q) => q.userAnswer && q.userAnswer.trim() !== '')
+)
+
+onMounted(async () => {
+  try {
+    const topicFile = route.query.topic as string
+    const response = await fetch(`./data/${topicFile}`)
+    const data: TopicData = await response.json()
+
+    const shuffled = [...data.questions].sort(() => Math.random() - 0.5)
+    const selected = shuffled.slice(0, questionCount.value)
+
+    questions.value = selected.map((q) => ({
+      prompt: direction.value === 'jp-to-en' ? q.answer : q.question,
+      answer: direction.value === 'jp-to-en' ? q.question : q.answer,
+      alternatives: q.alternatives,
+      userAnswer: '',
+    }))
+  } catch (e) {
+    error.value = 'Failed to load questions'
+    console.error(e)
+  } finally {
+    loading.value = false
+  }
+})
+
+function goHome() {
+  router.push({ name: 'home' })
+}
+
+function finishQuiz() {
+  router.push({
+    name: 'results',
+    query: {
+      topic: route.query.topic,
+      topicName: topicName.value,
+      direction: direction.value,
+      questions: JSON.stringify(questions.value),
+    },
+  })
+}
+</script>
+
+<template>
+  <div class="min-h-screen p-8">
+    <header class="max-w-2xl mx-auto mb-8 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800">{{ topicName }}</h1>
+        <p class="text-gray-600">({{ directionLabel }})</p>
+      </div>
+      <button
+        class="text-gray-500 hover:text-gray-700 transition-colors"
+        @click="goHome"
+      >
+        &larr; Back to Home
+      </button>
+    </header>
+
+    <main class="max-w-2xl mx-auto">
+      <div v-if="loading" class="text-center text-gray-500">Loading questions...</div>
+      <div v-else-if="error" class="text-center text-red-500">{{ error }}</div>
+      <div v-else class="space-y-6">
+        <div
+          v-for="(question, index) in questions"
+          :key="index"
+          class="bg-white rounded-lg border border-gray-200 p-6"
+        >
+          <p class="text-sm text-gray-500 mb-2">Question {{ index + 1 }}</p>
+          <p class="text-xl font-medium text-gray-800 mb-4">{{ question.prompt }}</p>
+          <input
+            v-model="question.userAnswer"
+            type="text"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Your answer"
+          />
+        </div>
+
+        <button
+          class="w-full py-3 px-4 rounded-md font-medium transition-colors"
+          :class="{
+            'bg-blue-500 text-white hover:bg-blue-600': allAnswered,
+            'bg-gray-200 text-gray-400 cursor-not-allowed': !allAnswered,
+          }"
+          :disabled="!allAnswered"
+          @click="finishQuiz"
+        >
+          Finish Quiz
+        </button>
+      </div>
+    </main>
+  </div>
+</template>

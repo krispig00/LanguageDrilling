@@ -1,0 +1,26 @@
+{
+  "questions": [
+    { "question": "always", "answer": "itsumo" },
+    { "question": "often", "answer": "yoku" },
+    { "question": "sometimes", "answer": "tokidoki" },
+    { "question": "usually", "answer": "taitei" },
+    { "question": "never", "answer": "zenzen", "alternatives": ["zen zen"] },
+    { "question": "every day", "answer": "mainichi" },
+    { "question": "every week", "answer": "maishuu" },
+    { "question": "every month", "answer": "maitsuki" },
+    { "question": "every year", "answer": "maitoshi" },
+    { "question": "today", "answer": "kyou" },
+    { "question": "tomorrow", "answer": "ashita" },
+    { "question": "yesterday", "answer": "kinou" },
+    { "question": "now", "answer": "ima" },
+    { "question": "later", "answer": "ato de", "alternatives": ["atode"] },
+    { "question": "soon", "answer": "sugu" },
+    { "question": "morning", "answer": "asa" },
+    { "question": "afternoon", "answer": "gogo" },
+    { "question": "evening", "answer": "yoru" },
+    { "question": "night", "answer": "yoru" },
+    { "question": "this week", "answer": "konshuu" },
+    { "question": "next week", "answer": "raishuu" },
+    { "question": "last week", "answer": "senshuu" }
+  ]
+}
