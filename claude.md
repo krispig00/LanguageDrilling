@@ -23,11 +23,15 @@ See results with correct/incorrect answers highlighted
 Technical Specifications
 Tech Stack
 
-Frontend: Vue.js
+Frontend: Vue 3 + TypeScript + Vite
+Styling: Tailwind CSS
 Data: Static JSON files (one per topic)
-Hosting: GitHub Pages
+Hosting: GitHub Pages (auto-deployed via GitHub Actions)
 Backend: None (client-side only)
 Database: None
+
+Live URL: https://krispig00.github.io/LanguageDrilling/
+Repository: https://github.com/krispig00/LanguageDrilling
 
 Data Structure
 topics.json (master list):
@@ -66,6 +70,7 @@ json{
 - `alternatives` array is optional - only add for common misspellings/variations
 - Keep it simple: most questions just have `question` and `answer`
 - Each topic file should contain 20+ questions to support the "20 questions" option
+- Duplicate Japanese answers are handled automatically in JP→EN mode (e.g., if "evening" and "night" both map to "yoru", either English answer is accepted)
 
 ---
 
@@ -85,9 +90,9 @@ json{
 5. Can select a different card to switch topics
 
 **Selected card displays:**
-- Direction: ( ) JP → EN  ( ) EN → JP (radio buttons)
-- Number of questions: ( ) 10  ( ) 20 (radio buttons)
-- [Start Quiz] button (enabled after selecting both options)
+- Direction: ( ) JP → EN  (•) EN → JP (radio buttons, EN→JP default)
+- Number of questions: (•) 10  ( ) 20 (radio buttons, 10 default)
+- [Start Quiz] button (enabled immediately with defaults)
 
 ### Screen 2: Quiz Page
 
@@ -149,7 +154,6 @@ Check against main answer + alternatives (if provided)
 Screen 3: Results Page
 Display:
 
-Overall score (e.g., "8/10 correct")
 Full list of questions with answers:
 
 ✓ Correct answers (highlighted green)
@@ -158,14 +162,13 @@ Full list of questions with answers:
 Show: "Your answer: [what you typed]"
 Show: "Correct answer: [actual answer]"
 
-
-
+Overall score at bottom (e.g., "8/10 correct")
 
 
 Actions:
 
-Button to return to homepage
-(Optional future: "Retry incorrect questions" or "Try again")
+"Return to Home" button
+"Quiz Again" button (restarts same topic/direction/count with fresh shuffle)
 
 
 Answer Checking Logic
@@ -277,47 +280,48 @@ Dark mode
 
 
 Development Phases
-Phase 1: MVP Setup
+Phase 1: MVP Setup ✅
 
- Set up Vue project
- Create basic routing (HomePage, QuizPage, ResultsPage)
- Design topics.json structure
- Create 1-2 sample topic JSON files (20+ questions each)
+✅ Set up Vue 3 + TypeScript + Vite project
+✅ Create basic routing (HomePage, QuizPage, ResultsPage)
+✅ Design topics.json structure
+✅ Create sample topic JSON files (20+ questions each)
 
-Phase 2: Homepage
+Phase 2: Homepage ✅
 
- Load and display topic cards in grid
- Implement card selection interaction
- Add direction selection (JP→EN / EN→JP)
- Add question count selection (10 / 20)
- Enable "Start Quiz" button logic
- Add backdrop click to deselect
+✅ Load and display topic cards in grid
+✅ Implement card selection interaction
+✅ Add direction selection (JP→EN / EN→JP) with EN→JP default
+✅ Add question count selection (10 / 20) with 10 default
+✅ Enable "Start Quiz" button logic
+✅ Add backdrop click to deselect
 
-Phase 3: Quiz Page
+Phase 3: Quiz Page ✅
 
- Load questions based on selected topic
- Implement question shuffling and selection logic
- Reverse questions if EN→JP direction selected
- Display selected questions with input fields
- Track completion status (all fields filled)
- Enable/disable "Finish Quiz" button
- Implement answer checking logic
- Add "Back to Home" navigation
+✅ Load questions based on selected topic
+✅ Implement question shuffling and selection logic
+✅ Reverse questions if EN→JP direction selected
+✅ Display selected questions with input fields
+✅ Track completion status (all fields filled)
+✅ Enable/disable "Finish Quiz" button
+✅ Implement answer checking logic
+✅ Add "Back to Home" navigation
+✅ Handle duplicate Japanese words in JP→EN mode (auto-detect and accept all valid translations)
 
-Phase 4: Results Page
+Phase 4: Results Page ✅
 
- Calculate and display score
- Show correct/incorrect answers
- Highlight with green/red styling
- Display user's answer vs correct answer for wrong answers
- Add "Return to Home" button
+✅ Calculate and display score (at bottom)
+✅ Show correct/incorrect answers
+✅ Highlight with green/red styling
+✅ Display user's answer vs correct answer for wrong answers
+✅ Add "Return to Home" button
+✅ Add "Quiz Again" button
 
-Phase 5: Polish & Deploy
+Phase 5: Polish & Deploy ✅
 
- Styling and responsive design
- Test on different browsers
- Deploy to GitHub Pages
- Add README with usage instructions
+✅ Styling with Tailwind CSS
+✅ Deploy to GitHub Pages
+✅ Set up GitHub Actions for auto-deploy on push to main
 
 
 Success Criteria
@@ -370,4 +374,9 @@ Accept alternative spellings?
 
 
 Last Updated: January 2026
-Current Status: Planning complete - ready to start development
+Current Status: V1 Complete and Live
+
+Deployment:
+- Live at: https://krispig00.github.io/LanguageDrilling/
+- Auto-deploys via GitHub Actions when pushing to main branch
+- Run `npm run dev` for local development
