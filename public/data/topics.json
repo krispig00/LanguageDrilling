@@ -11,6 +11,14 @@
     {
       "name": "Particles",
       "file": "particles.json"
+    },
+    {
+      "name": "Adjectives",
+      "file": "adjectives.json"
+    },
+    {
+      "name": "Verbs",
+      "file": "verbs.json"
     }
   ]
 }

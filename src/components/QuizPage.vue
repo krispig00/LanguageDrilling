@@ -27,15 +27,54 @@ onMounted(async () => {
     const response = await fetch(`./data/${topicFile}`)
     const data: TopicData = await response.json()
 
-    const shuffled = [...data.questions].sort(() => Math.random() - 0.5)
-    const selected = shuffled.slice(0, questionCount.value)
+    if (direction.value === 'jp-to-en') {
+      // Build map of Japanese word -> all English translations
+      const jpToEnMap = new Map<string, Set<string>>()
+      for (const q of data.questions) {
+        const jp = q.answer.toLowerCase()
+        if (!jpToEnMap.has(jp)) {
+          jpToEnMap.set(jp, new Set())
+        }
+        jpToEnMap.get(jp)!.add(q.question.toLowerCase())
+      }
 
-    questions.value = selected.map((q) => ({
-      prompt: direction.value === 'jp-to-en' ? q.answer : q.question,
-      answer: direction.value === 'jp-to-en' ? q.question : q.answer,
-      alternatives: q.alternatives,
-      userAnswer: '',
-    }))
+      // Deduplicate by Japanese word, then shuffle
+      const uniqueByJp = new Map<string, typeof data.questions[0]>()
+      for (const q of data.questions) {
+        const jp = q.answer.toLowerCase()
+        if (!uniqueByJp.has(jp)) {
+          uniqueByJp.set(jp, q)
+        }
+      }
+      const uniqueQuestions = Array.from(uniqueByJp.values())
+      const shuffled = uniqueQuestions.sort(() => Math.random() - 0.5)
+      const selected = shuffled.slice(0, questionCount.value)
+
+      questions.value = selected.map((q) => {
+        const jp = q.answer.toLowerCase()
+        const allEnglish = Array.from(jpToEnMap.get(jp) || [])
+        const primary = q.question
+        const alternatives = allEnglish.filter((e) => e !== primary.toLowerCase())
+
+        return {
+          prompt: q.answer,
+          answer: primary,
+          alternatives: alternatives.length > 0 ? alternatives : q.alternatives,
+          userAnswer: '',
+        }
+      })
+    } else {
+      // EN -> JP mode: straightforward
+      const shuffled = [...data.questions].sort(() => Math.random() - 0.5)
+      const selected = shuffled.slice(0, questionCount.value)
+
+      questions.value = selected.map((q) => ({
+        prompt: q.question,
+        answer: q.answer,
+        alternatives: q.alternatives,
+        userAnswer: '',
+      }))
+    }
   } catch (e) {
     error.value = 'Failed to load questions'
     console.error(e)
