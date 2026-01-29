@@ -20,14 +20,23 @@ const questions = computed<QuizQuestion[]>(() => {
   }
 })
 
+function normalizeAnswer(answer: string): string {
+  return answer
+    .toLowerCase()
+    .trim()
+    .replace(/\s*\(\s*/g, '(')  // Remove spaces around opening paren
+    .replace(/\s*\)\s*/g, ')')  // Remove spaces around closing paren
+    .replace(/\s+/g, ' ')       // Collapse multiple spaces to one
+}
+
 function checkAnswer(question: QuizQuestion): boolean {
-  const userAnswer = (question.userAnswer || '').toLowerCase().trim()
-  const correctAnswer = question.answer.toLowerCase()
+  const userAnswer = normalizeAnswer(question.userAnswer || '')
+  const correctAnswer = normalizeAnswer(question.answer)
 
   if (userAnswer === correctAnswer) return true
 
   if (question.alternatives) {
-    return question.alternatives.some((alt) => alt.toLowerCase() === userAnswer)
+    return question.alternatives.some((alt) => normalizeAnswer(alt) === userAnswer)
   }
 
   return false
