@@ -33,10 +33,15 @@ function checkAnswer(question: QuizQuestion): boolean {
   return false
 }
 
+function isSkipped(question: QuizQuestion): boolean {
+  return !question.userAnswer || question.userAnswer.trim() === ''
+}
+
 const results = computed(() =>
   questions.value.map((q) => ({
     question: q,
     isCorrect: checkAnswer(q),
+    skipped: isSkipped(q),
   }))
 )
 
@@ -75,7 +80,8 @@ function quizAgain() {
           class="rounded-lg border-2 p-4"
           :class="{
             'border-green-300 bg-green-50': result.isCorrect,
-            'border-red-300 bg-red-50': !result.isCorrect,
+            'border-gray-300 bg-gray-50': result.skipped,
+            'border-red-300 bg-red-50': !result.isCorrect && !result.skipped,
           }"
         >
           <div class="flex items-start gap-3">
@@ -83,14 +89,18 @@ function quizAgain() {
               class="text-xl"
               :class="{
                 'text-green-600': result.isCorrect,
-                'text-red-600': !result.isCorrect,
+                'text-gray-400': result.skipped,
+                'text-red-600': !result.isCorrect && !result.skipped,
               }"
             >
-              {{ result.isCorrect ? '\u2713' : '\u2717' }}
+              {{ result.isCorrect ? '\u2713' : result.skipped ? '\u2014' : '\u2717' }}
             </span>
             <div class="flex-1">
               <p class="font-medium text-gray-800">{{ result.question.prompt }}</p>
-              <p class="text-sm text-gray-600 mt-1">
+              <p v-if="result.skipped" class="text-sm text-gray-500 mt-1 italic">
+                Skipped
+              </p>
+              <p v-else class="text-sm text-gray-600 mt-1">
                 Your answer: <span class="font-medium">{{ result.question.userAnswer }}</span>
               </p>
               <p v-if="!result.isCorrect" class="text-sm text-green-700 mt-1">

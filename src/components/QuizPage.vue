@@ -17,8 +17,8 @@ const questions = ref<QuizQuestion[]>([])
 const loading = ref(true)
 const error = ref<string | null>(null)
 
-const allAnswered = computed(() =>
-  questions.value.every((q) => q.userAnswer && q.userAnswer.trim() !== '')
+const answeredCount = computed(() =>
+  questions.value.filter((q) => q.userAnswer && q.userAnswer.trim() !== '').length
 )
 
 onMounted(async () => {
@@ -135,15 +135,10 @@ function finishQuiz() {
         </div>
 
         <button
-          class="w-full py-3 px-4 rounded-md font-medium transition-colors"
-          :class="{
-            'bg-blue-500 text-white hover:bg-blue-600': allAnswered,
-            'bg-gray-200 text-gray-400 cursor-not-allowed': !allAnswered,
-          }"
-          :disabled="!allAnswered"
+          class="w-full py-3 px-4 rounded-md font-medium transition-colors bg-blue-500 text-white hover:bg-blue-600"
           @click="finishQuiz"
         >
-          Finish Quiz
+          Finish Quiz ({{ answeredCount }}/{{ questions.length }} answered)
         </button>
       </div>
     </main>
