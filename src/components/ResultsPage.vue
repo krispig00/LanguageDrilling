@@ -62,15 +62,17 @@ function goHome() {
 }
 
 function quizAgain() {
-  router.push({
-    name: 'quiz',
-    query: {
-      topic: route.query.topic,
-      topicName: topicName.value,
-      direction: direction.value,
-      count: totalCount.value.toString(),
-    },
-  })
+  const query: Record<string, string> = {
+    topic: route.query.topic as string,
+    topicName: topicName.value,
+    direction: direction.value,
+    count: totalCount.value.toString(),
+  }
+  const selectedIndices = route.query.selectedIndices as string | undefined
+  if (selectedIndices) {
+    query.selectedIndices = selectedIndices
+  }
+  router.push({ name: 'quiz', query })
 }
 </script>
 

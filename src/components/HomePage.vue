@@ -59,16 +59,17 @@ function handleBackdropClick(event: MouseEvent) {
   }
 }
 
-function startQuiz(config: { topic: Topic; direction: Direction; questionCount: QuestionCount }) {
-  router.push({
-    name: 'quiz',
-    query: {
-      topic: config.topic.file,
-      topicName: config.topic.name,
-      direction: config.direction,
-      count: config.questionCount.toString(),
-    },
-  })
+function startQuiz(config: { topic: Topic; direction: Direction; questionCount: QuestionCount; selectedIndices?: number[] }) {
+  const query: Record<string, string> = {
+    topic: config.topic.file,
+    topicName: config.topic.name,
+    direction: config.direction,
+    count: config.questionCount.toString(),
+  }
+  if (config.selectedIndices && config.selectedIndices.length > 0) {
+    query.selectedIndices = config.selectedIndices.join(',')
+  }
+  router.push({ name: 'quiz', query })
 }
 
 function startListeningQuiz(config: { exercise: ListeningExercise; questionCount: QuestionCount }) {

@@ -9,6 +9,7 @@ const route = useRoute()
 const topicName = computed(() => route.query.topicName as string)
 const direction = computed(() => route.query.direction as Direction)
 const questionCount = computed(() => parseInt(route.query.count as string) || 10)
+const selectedIndicesParam = computed(() => route.query.selectedIndices as string | undefined)
 const directionLabel = computed(() =>
   direction.value === 'jp-to-en' ? 'JP \u2192 EN' : 'EN \u2192 JP'
 )
@@ -27,8 +28,22 @@ onMounted(async () => {
     const response = await fetch(`./data/${topicFile}`)
     const data: TopicData = await response.json()
 
+    // Filter by selected indices if provided
+    let pool = data.questions
+    if (selectedIndicesParam.value) {
+      const indices = selectedIndicesParam.value
+        .split(',')
+        .map(Number)
+        .filter((i) => !isNaN(i) && i >= 0 && i < data.questions.length)
+      if (indices.length > 0) {
+        pool = indices.map((i) => data.questions[i]!)
+      }
+    }
+
+    const useCustomSelection = selectedIndicesParam.value != null
+
     if (direction.value === 'jp-to-en') {
-      // Build map of Japanese word -> all English translations
+      // Build map of Japanese word -> all English translations (from full dataset for dedup)
       const jpToEnMap = new Map<string, Set<string>>()
       for (const q of data.questions) {
         const jp = q.answer.toLowerCase()
@@ -39,8 +54,8 @@ onMounted(async () => {
       }
 
       // Deduplicate by Japanese word, then shuffle
-      const uniqueByJp = new Map<string, typeof data.questions[0]>()
-      for (const q of data.questions) {
+      const uniqueByJp = new Map<string, typeof pool[0]>()
+      for (const q of pool) {
         const jp = q.answer.toLowerCase()
         if (!uniqueByJp.has(jp)) {
           uniqueByJp.set(jp, q)
@@ -48,7 +63,7 @@ onMounted(async () => {
       }
       const uniqueQuestions = Array.from(uniqueByJp.values())
       const shuffled = uniqueQuestions.sort(() => Math.random() - 0.5)
-      const selected = shuffled.slice(0, questionCount.value)
+      const selected = useCustomSelection ? shuffled : shuffled.slice(0, questionCount.value)
 
       questions.value = selected.map((q) => {
         const jp = q.answer.toLowerCase()
@@ -65,8 +80,8 @@ onMounted(async () => {
       })
     } else {
       // EN -> JP mode: straightforward
-      const shuffled = [...data.questions].sort(() => Math.random() - 0.5)
-      const selected = shuffled.slice(0, questionCount.value)
+      const shuffled = [...pool].sort(() => Math.random() - 0.5)
+      const selected = useCustomSelection ? shuffled : shuffled.slice(0, questionCount.value)
 
       questions.value = selected.map((q) => ({
         prompt: q.question,
@@ -88,15 +103,16 @@ function goHome() {
 }
 
 function finishQuiz() {
-  router.push({
-    name: 'results',
-    query: {
-      topic: route.query.topic,
-      topicName: topicName.value,
-      direction: direction.value,
-      questions: JSON.stringify(questions.value),
-    },
-  })
+  const query: Record<string, string> = {
+    topic: route.query.topic as string,
+    topicName: topicName.value,
+    direction: direction.value,
+    questions: JSON.stringify(questions.value),
+  }
+  if (selectedIndicesParam.value) {
+    query.selectedIndices = selectedIndicesParam.value
+  }
+  router.push({ name: 'results', query })
 }
 </script>
 
