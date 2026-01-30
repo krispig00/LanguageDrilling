@@ -37,3 +37,38 @@ export interface QuizResult {
   question: QuizQuestion
   isCorrect: boolean
 }
+
+// Listening exercise types
+export interface ListeningSentence {
+  japanese: string
+  english: string
+  notes?: string
+}
+
+export interface ListeningExercise {
+  name: string
+  file: string
+  description?: string
+}
+
+export interface ListeningExercisesConfig {
+  exercises: ListeningExercise[]
+}
+
+export interface ListeningExerciseData {
+  sentences: ListeningSentence[]
+}
+
+export interface ListeningQuizQuestion {
+  japanese: string
+  english: string
+  notes?: string
+  userAnswer?: string
+}
+
+// Numbers speed drill types
+export type NumberDirection = 'num-to-jp' | 'jp-to-num'
+
+export interface NumbersConfig {
+  direction: NumberDirection
+}

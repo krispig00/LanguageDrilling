@@ -1,0 +1,9 @@
+{
+  "exercises": [
+    {
+      "name": "Daily Greetings",
+      "file": "listening/greetings.json",
+      "description": "Common everyday greetings"
+    }
+  ]
+}
