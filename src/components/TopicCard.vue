@@ -106,7 +106,7 @@ function handleStart() {
 
       <div>
         <p class="text-sm font-medium text-gray-600 mb-2">Questions:</p>
-        <div v-if="!hasCustomSelection" class="flex gap-4">
+        <div class="flex gap-4">
           <label class="flex items-center gap-2 cursor-pointer">
             <input
               type="radio"
@@ -126,7 +126,7 @@ function handleStart() {
             <span class="text-sm">20</span>
           </label>
         </div>
-        <div v-else class="flex items-center gap-2">
+        <div v-if="hasCustomSelection" class="flex items-center gap-2 mt-2">
           <span class="text-sm text-blue-600 font-medium">{{ selectedIndices.length }} words selected</span>
           <button
             class="text-gray-400 hover:text-gray-600 text-sm"

@@ -40,8 +40,6 @@ onMounted(async () => {
       }
     }
 
-    const useCustomSelection = selectedIndicesParam.value != null
-
     if (direction.value === 'jp-to-en') {
       // Build map of Japanese word -> all English translations (from full dataset for dedup)
       const jpToEnMap = new Map<string, Set<string>>()
@@ -63,7 +61,7 @@ onMounted(async () => {
       }
       const uniqueQuestions = Array.from(uniqueByJp.values())
       const shuffled = uniqueQuestions.sort(() => Math.random() - 0.5)
-      const selected = useCustomSelection ? shuffled : shuffled.slice(0, questionCount.value)
+      const selected = shuffled.slice(0, questionCount.value)
 
       questions.value = selected.map((q) => {
         const jp = q.answer.toLowerCase()
@@ -81,7 +79,7 @@ onMounted(async () => {
     } else {
       // EN -> JP mode: straightforward
       const shuffled = [...pool].sort(() => Math.random() - 0.5)
-      const selected = useCustomSelection ? shuffled : shuffled.slice(0, questionCount.value)
+      const selected = shuffled.slice(0, questionCount.value)
 
       questions.value = selected.map((q) => ({
         prompt: q.question,
