@@ -125,6 +125,15 @@ function handleStart() {
             />
             <span class="text-sm">20</span>
           </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              v-model="questionCount"
+              value="all"
+              class="w-4 h-4 text-blue-500"
+            />
+            <span class="text-sm">All</span>
+          </label>
         </div>
         <div v-if="hasCustomSelection" class="flex items-center gap-2 mt-2">
           <span class="text-sm text-blue-600 font-medium">{{ selectedIndices.length }} words selected</span>

@@ -18,7 +18,7 @@ export interface TopicsConfig {
 }
 
 export type Direction = 'jp-to-en' | 'en-to-jp'
-export type QuestionCount = 10 | 20
+export type QuestionCount = 10 | 20 | 'all'
 
 export interface QuizConfig {
   topic: Topic

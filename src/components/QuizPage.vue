@@ -8,7 +8,10 @@ const route = useRoute()
 
 const topicName = computed(() => route.query.topicName as string)
 const direction = computed(() => route.query.direction as Direction)
-const questionCount = computed(() => parseInt(route.query.count as string) || 10)
+const questionCount = computed(() => {
+  const raw = route.query.count as string
+  return raw === 'all' ? 'all' as const : (parseInt(raw) || 10)
+})
 const selectedIndicesParam = computed(() => route.query.selectedIndices as string | undefined)
 const directionLabel = computed(() =>
   direction.value === 'jp-to-en' ? 'JP \u2192 EN' : 'EN \u2192 JP'
@@ -61,7 +64,7 @@ onMounted(async () => {
       }
       const uniqueQuestions = Array.from(uniqueByJp.values())
       const shuffled = uniqueQuestions.sort(() => Math.random() - 0.5)
-      const selected = shuffled.slice(0, questionCount.value)
+      const selected = questionCount.value === 'all' ? shuffled : shuffled.slice(0, questionCount.value)
 
       questions.value = selected.map((q) => {
         const jp = q.answer.toLowerCase()
@@ -79,7 +82,7 @@ onMounted(async () => {
     } else {
       // EN -> JP mode: straightforward
       const shuffled = [...pool].sort(() => Math.random() - 0.5)
-      const selected = shuffled.slice(0, questionCount.value)
+      const selected = questionCount.value === 'all' ? shuffled : shuffled.slice(0, questionCount.value)
 
       questions.value = selected.map((q) => ({
         prompt: q.question,
