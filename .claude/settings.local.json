@@ -15,7 +15,12 @@
       "Bash(npm run deploy:*)",
       "Bash(timeout:*)",
       "Bash(npx vue-tsc:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(git -C \"C:\\\\Users\\\\QWSIJO\\\\Documents\\\\Subarashii\" log --oneline -5)",
+      "Bash(git -C \"C:\\\\Users\\\\QWSIJO\\\\Documents\\\\Subarashii\" add src/components/WordSelectionModal.vue src/components/TopicCard.vue src/components/HomePage.vue src/components/QuizPage.vue src/components/ResultsPage.vue)",
+      "Bash(git -C \"C:\\\\Users\\\\QWSIJO\\\\Documents\\\\Subarashii\" commit -m \"$\\(cat <<''EOF''\nAdd word selection feature for custom quiz word sets\n\nAllow users to pick specific words from a topic via a gear icon and\nmodal, overriding the 10/20 count picker. Selection persists across\n\"Quiz Again\" but resets on returning home.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C \"C:\\\\Users\\\\QWSIJO\\\\Documents\\\\Subarashii\" status)",
+      "Bash(git -C \"C:\\\\Users\\\\QWSIJO\\\\Documents\\\\Subarashii\" push)"
     ]
   }
 }

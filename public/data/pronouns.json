@@ -1,0 +1,31 @@
+{
+  "questions": [
+    { "question": "I/me", "answer": "watashi" },
+    { "question": "you (polite)", "answer": "anata" },
+    { "question": "he/him", "answer": "kare" },
+    { "question": "she/her", "answer": "kanojo" },
+    { "question": "we/us", "answer": "watashitachi" },
+    { "question": "you all (polite)", "answer": "anatatachi" },
+    { "question": "they/them", "answer": "karera" },
+    { "question": "they/them (female group)", "answer": "kanojotachi" },
+    { "question": "this", "answer": "kore" },
+    { "question": "that (near you)", "answer": "sore" },
+    { "question": "that (over there)", "answer": "are" },
+    { "question": "which one", "answer": "dore" },
+    { "question": "here", "answer": "koko" },
+    { "question": "there (near you)", "answer": "soko" },
+    { "question": "over there", "answer": "asoko" },
+    { "question": "where", "answer": "doko" },
+    { "question": "this way/this one", "answer": "kochira" },
+    { "question": "that way/that one (near you)", "answer": "sochira" },
+    { "question": "that way/that one (over there)", "answer": "achira" },
+    { "question": "which way/which one", "answer": "dochira" },
+    { "question": "this (adjective)", "answer": "kono" },
+    { "question": "that (adjective, near you)", "answer": "sono" },
+    { "question": "that (adjective, over there)", "answer": "ano" },
+    { "question": "which (adjective)", "answer": "dono" },
+    { "question": "who", "answer": "dare" },
+    { "question": "what", "answer": "nani", "alternatives": ["nan"] },
+    { "question": "everyone", "answer": "minna" }
+  ]
+}

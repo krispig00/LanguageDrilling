@@ -19,6 +19,10 @@
     {
       "name": "Verbs",
       "file": "verbs.json"
+    },
+    {
+      "name": "Pronouns",
+      "file": "pronouns.json"
     }
   ]
 }
